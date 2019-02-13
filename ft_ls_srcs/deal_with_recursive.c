@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/13 10:24:09 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 14:20:57 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 14:32:47 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -78,11 +78,11 @@ t_info				*deal_with_recursive(t_info *info, t_args *args)
 	if (info->type == 1)
 	{
 		curr_file = info->file;
-		if (!(info->next2 = (t_info*)malloc(sizeof(t_info))))
-		{
-			free_list(head);
-			exit (-1);
-		}
+//		if (!(info->next2 = (t_info*)malloc(sizeof(t_info))))
+//		{
+//			free_list(head);
+//			exit (-1);
+//		}
 		info->file = NULL;
 		info->next2 = get_folder_content(info, args, curr_file);
 		dir_head = ft_list_back_next2(dir_head, info);
