@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:29:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/11 15:37:18 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/13 12:50:08 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,15 +26,19 @@
 typedef struct		s_info
 {
 	char			*file;
+	char			*path;
 	int				is_error;
+	int				type;
 	char			*rights;
 	int				inodes;
 	char			*user;
 	char			*group;
 	int				size;
-	char			date;
-	char			*name;
+	time_t			seconds;
+	char			*date;
 	struct s_info	*next;
+	struct s_info	*next2;
+	int				lvl_recursive;
 }					t_info;
 
 typedef struct		s_args
@@ -47,6 +51,28 @@ typedef struct		s_args
 **		CHECK_PARAMS.C
 */
 
-void			check_params(int ac, char **av, t_info *info, t_args *args);
+t_info			*check_params(int ac, char **av, t_info *info, t_args *args);
+t_info			*ft_list_back(t_info *head, t_info *info);
+void			check_file_name(char *arg, t_info *info, t_args *args);
+void			check_args(char *arg, t_args *args, t_info *info);
+
+/*
+**		FILL_FILE_INFOS.C
+*/
+
+void			fill_file_infos(t_info *info, t_args *args, struct stat fileStat);
+void			fill_full_rights(t_info *info, struct stat fileStat);
+
+/*
+**		DEAL_WITH_RECURSIVE.C
+*/
+
+t_info			*deal_with_recursive(t_info *info, t_args *args);
+
+/*
+**		FREE.C
+*/
+
+void			free_list(t_info *lst);
 
 #endif
