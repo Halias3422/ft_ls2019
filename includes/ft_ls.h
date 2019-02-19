@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:29:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 12:50:08 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/19 09:21:25 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ typedef struct		s_info
 	char			*date;
 	struct s_info	*next;
 	struct s_info	*next2;
-	int				lvl_recursive;
+	long long		total_size;
 }					t_info;
 
 typedef struct		s_args
@@ -68,6 +68,12 @@ void			fill_full_rights(t_info *info, struct stat fileStat);
 */
 
 t_info			*deal_with_recursive(t_info *info, t_args *args);
+
+/*
+**		SORT_LIST.C
+*/
+
+t_info			*sort_list(t_info *info, t_args *args);
 
 /*
 **		FREE.C

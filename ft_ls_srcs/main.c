@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 14:21:31 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/19 12:40:38 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,36 +32,30 @@ int				main(int ac, char **av)
 	t_info		*info;
 	t_args		args;
 	t_info		*head;
+	t_info		*test;
 
 	info = NULL;
 //	init_info(info);
 	info = check_params(ac, av, info, &args);
-	head = info;
-	while (head != NULL)
+	test = info;
+	info = sort_list(info, & args);
+/*	while (head != NULL)
 	{
 		ft_printf("info->file = %s\n", head->file);
 		head = head->next;
-	}
-	ft_printf("\n\n\n");
-	info = deal_with_recursive(info, &args);
-/*	while (info != NULL)
-	{
-		if (info->next2 != NULL)
-		{
-			ft_printf("go next2\n");
-			while (info->next2 != NULL)
-			{
-				info = info->next2;
-				ft_printf("j'avance dans next2\n");
-			}
-		}
-		ft_printf("info->file fin = %s\n", info->file);
-		info = info->next;
 	}*/
+	info->path = ft_strnew(0);
+	info->path = free_strjoin(info->path, info->file);
+	head = deal_with_recursive(info, &args);
 	while (info != NULL)
 	{
 		ft_printf("info->file = %s\ninfo->type = %d\ninfo->rights = %s\ninfo->user = %s\ninfo->group = %s\ninfo->size = %d\ninfo->date = %s\ninfo->seconds = %d\n\n\n", info->file, info->type, info->rights, info->user, info->group,info->size, info->date, info->seconds);
 		info = info->next;
 	}
+/*	while (head != NULL)
+	{
+		ft_printf("head->file = %s\nhead->type = %d\nhead->rights = %s\nhead->user = %s\nhead->group = %s\nhead->size = %d\nhead->date = %s\nhead->seconds = %d\n\n\n", head->file, head->type, head->rights, head->user, head->group,head->size, head->date, head->seconds);
+		head = head->next;
+	}*/
 	return (0);
 }

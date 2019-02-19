@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 12:55:48 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/19 08:31:20 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,7 +59,8 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 	}
 	else
 	{
-		info->file = arg;
+		if (info->file == NULL)
+			info->file = arg;
 		fill_file_infos(info, args, fileStat);
 	}
 	args->is_file = 1;

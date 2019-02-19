@@ -6,7 +6,7 @@
 #    By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/02 14:34:41 by vde-sain     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/13 10:25:42 by vde-sain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/19 09:21:46 by vde-sain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -17,7 +17,8 @@ SRC = ft_ls_srcs/main.c \
 	  ft_ls_srcs/check_params.c \
 	  ft_ls_srcs/free.c \
 	  ft_ls_srcs/fill_file_infos.c \
-	  ft_ls_srcs/deal_with_recursive.c
+	  ft_ls_srcs/deal_with_recursive.c \
+	  ft_ls_srcs/sort_list.c
 
 OBJ = $(SRC:.c=.o)
 
