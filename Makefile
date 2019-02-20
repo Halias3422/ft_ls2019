@@ -6,7 +6,7 @@
 #    By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/02 14:34:41 by vde-sain     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/19 09:21:46 by vde-sain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/20 07:18:40 by vde-sain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -15,6 +15,7 @@ NAME = ft_ls
 
 SRC = ft_ls_srcs/main.c \
 	  ft_ls_srcs/check_params.c \
+	  ft_ls_srcs/dir_passed_as_arg.c \
 	  ft_ls_srcs/free.c \
 	  ft_ls_srcs/fill_file_infos.c \
 	  ft_ls_srcs/deal_with_recursive.c \

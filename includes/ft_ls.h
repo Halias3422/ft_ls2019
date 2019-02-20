@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:29:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/19 09:21:25 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/20 07:54:30 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,6 +39,7 @@ typedef struct		s_info
 	struct s_info	*next;
 	struct s_info	*next2;
 	long long		total_size;
+	int				printing;
 }					t_info;
 
 typedef struct		s_args
@@ -64,10 +65,17 @@ void			fill_file_infos(t_info *info, t_args *args, struct stat fileStat);
 void			fill_full_rights(t_info *info, struct stat fileStat);
 
 /*
+**		DIR_PASSED_AS_ARG.C
+*/
+
+void			dir_passed_as_arg(t_info *info, t_args *args);
+void			get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *head);
+/*
 **		DEAL_WITH_RECURSIVE.C
 */
 
 t_info			*deal_with_recursive(t_info *info, t_args *args);
+t_info			*get_folder_content(t_info *info, t_args *args, char *curr_file);
 
 /*
 **		SORT_LIST.C

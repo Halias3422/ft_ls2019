@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/13 10:24:09 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/19 12:41:25 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/20 07:14:59 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,8 +37,8 @@ t_info				*get_folder_content(t_info *info, t_args *args, char *curr_file)
 	t_info			*head;
 	struct dirent	*read;
 	DIR				*dirp;
+	t_info			*tmp;
 
-	args->is_file = 1;
 	head = info;
 	dirp = opendir(curr_file);
 	if (dirp == NULL)
@@ -61,6 +61,13 @@ t_info				*get_folder_content(t_info *info, t_args *args, char *curr_file)
 		info->next = NULL;
 		head = ft_list_back(head, info);
 	}
+	tmp = head;
+	while (tmp != NULL)
+	{
+		ft_printf("rec info->file = %s\n", tmp->file);
+		tmp = tmp->next;
+	}
+	ft_printf("JE SORS DE LA LISTE\n");
 	closedir(dirp);
 	return (head);
 }
@@ -75,7 +82,6 @@ t_info				*deal_with_recursive(t_info *info, t_args *args)
 	if (ft_strcmp(info->file, ".") != 0 && ft_strcmp(info->file, "..") != 0)
 	{
 		dir_head = NULL;
-		args->is_file = 1;
 		if (info->type == 1)
 		{
 			curr_file = info->path;
@@ -85,7 +91,7 @@ t_info				*deal_with_recursive(t_info *info, t_args *args)
 			info->next2->next2 = NULL;
 		}
 	}
-		if ((is_contained_in("R", args->arg, 0) > 0) && info->next != NULL)
-			deal_with_recursive(info->next, args);
+	if ((is_contained_in("R", args->arg, 0) > 0) && info->next != NULL)
+		deal_with_recursive(info->next, args);
 	return (head);
 }

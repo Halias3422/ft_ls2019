@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/19 08:31:20 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/20 07:46:44 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,6 +64,8 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 		fill_file_infos(info, args, fileStat);
 	}
 	args->is_file = 1;
+//	if (info->printing < 0)
+//		dir_passed_as_arg(info, args);
 }
 
 /*
@@ -116,6 +118,8 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 			info->file = NULL;
 			check_file_name(av[av_nb], info, args);
 			info->next = NULL;
+			if (info->printing < 0)
+				dir_passed_as_arg(info, args);
 			head = ft_list_back(head, info);
 			av_nb++;
 		}

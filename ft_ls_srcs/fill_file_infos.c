@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/13 11:06:19 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/20 12:34:36 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -81,6 +81,7 @@ void				fill_date_info(t_info *info, struct stat fileStat)
 
 void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 {
+	info->printing = 1;
 	if (is_contained_in("l", args->arg, 0) > 0)
 	{
 		fill_file_rights(info, fileStat);
@@ -91,4 +92,6 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 	info->type = S_ISDIR(fileStat.st_mode);
 	if (S_ISLNK(fileStat.st_mode) == 1)
 		info->type = 2;
+	if (info->type == 1)
+		info->printing = -1;
 }
