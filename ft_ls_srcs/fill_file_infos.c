@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 12:34:36 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/21 10:47:36 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,9 +86,10 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 	{
 		fill_file_rights(info, fileStat);
 		fill_user_group_info(info, fileStat);
-		info->size = fileStat.st_size;
-		fill_date_info(info, fileStat);
 	}
+	info->access = fileStat.st_atime;
+	fill_date_info(info, fileStat);
+	info->size = fileStat.st_size;
 	info->type = S_ISDIR(fileStat.st_mode);
 	if (S_ISLNK(fileStat.st_mode) == 1)
 		info->type = 2;

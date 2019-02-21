@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/20 07:17:00 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 07:52:36 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/21 14:02:08 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,6 +32,7 @@ void				get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *head)
 			check_file_name(info->path, info, args);
 			info->file = free_strjoin(info->file, read->d_name);
 			info->printing = 1;
+			info->sub_folder = 1;
 			info->next = NULL;
 			head = ft_list_back(head, info);
 		}

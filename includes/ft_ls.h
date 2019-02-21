@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:29:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 07:54:30 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/21 14:01:36 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,10 +34,13 @@ typedef struct		s_info
 	char			*user;
 	char			*group;
 	int				size;
+	time_t			access;
+	int				access_equal;
 	time_t			seconds;
 	char			*date;
 	struct s_info	*next;
 	struct s_info	*next2;
+	int				sub_folder;
 	long long		total_size;
 	int				printing;
 }					t_info;
@@ -45,6 +48,7 @@ typedef struct		s_info
 typedef struct		s_args
 {
 	char			*arg;
+	int				nb;
 	int				is_file;
 }					t_args;
 
@@ -78,10 +82,33 @@ t_info			*deal_with_recursive(t_info *info, t_args *args);
 t_info			*get_folder_content(t_info *info, t_args *args, char *curr_file);
 
 /*
+**		SORT_ROOT.C
+*/
+
+t_info			*sort_error(t_info *info);
+t_info			*sort_root(t_info *info, t_args *args);
+
+/*
 **		SORT_LIST.C
 */
 
+t_info			*sort_list_ascii(t_info *info);
+t_info			*sort_list_s(t_info *info);
 t_info			*sort_list(t_info *info, t_args *args);
+
+/*
+**		SORT_LIST2.c
+*/
+
+t_info			*sort_list_reverse(t_info *info);
+t_info			*sort_list_access(t_info *info);
+t_info			*sort_list_time(t_info *info);
+
+/*
+**		PRINT_ROOT.C
+*/
+
+void			print_root(t_info *info, t_args *args);
 
 /*
 **		FREE.C

@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   sort_list.c                                      .::    .:/ .      .::   */
+/*   sort_root.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/02/19 09:19:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 13:06:41 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/02/21 07:54:58 by vde-sain     #+#   ##    ##    #+#       */
+/*   Updated: 2019/02/21 13:47:41 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_info			*add_node_middle_s(t_info *info, t_info *new)
+t_info			*move_error_back(t_info *info, t_info *error)
 {
 	t_info		*head;
 	t_info		*tmp;
@@ -22,7 +22,7 @@ t_info			*add_node_middle_s(t_info *info, t_info *new)
 
 	head = info;
 	link = 0;
-	while (info && info->size > new->size)
+	while (info && info->is_error == 1 && ft_strcmp(info->file, error->file) < 0)
 	{
 		link++;
 		tmp2 = info;
@@ -30,82 +30,32 @@ t_info			*add_node_middle_s(t_info *info, t_info *new)
 	}
 	if (link == 0)
 	{
-		new->next = info;
-		head = new;
+		error->next = info;
+		head = error;
 	}
 	else
 	{
 		tmp = info;
-		info = new;
-		new->next = tmp;
+		info = error;
+		error->next = tmp;
 		tmp2->next = info;
 	}
 	return (head);
 }
 
-t_info			*add_node_middle_ascii(t_info *info, t_info *new)
+t_info			*sort_error(t_info *info)
 {
-	t_info		*head;
 	t_info		*tmp;
-	t_info		*tmp2;
-	int			link;
-
-	head = info;
-	link = 0;
-	while (info && ft_strcmp(info->file, new->file) < 0)
-	{
-		link++;
-		tmp2 = info;
-		info = info->next;
-	}
-	if (link == 0)
-	{
-		new->next = info;
-		head = new;
-	}
-	else
-	{
-		tmp = info;
-		info = new;
-		new->next = tmp;
-		tmp2->next = info;
-	}
-	return (head);
-}
-
-t_info			*sort_list_s(t_info *info)
-{
 	t_info		*head;
-	t_info		*tmp;
 
 	head = info;
 	while (info->next)
 	{
-		if (info->size < info->next->size)
+		if (info->next->is_error == 1)
 		{
 			tmp = info->next;
 			info->next = info->next->next;
-			head = add_node_middle_s(head, tmp);
-		}
-		else
-			info = info->next;
-	}
-  return (head);
-}
-
-t_info			*sort_list_ascii(t_info *info)
-{
-	t_info		*head;
-	t_info		*tmp;
-
-	head = info;
-	while (info->next)
-	{
-		if (ft_strcmp(info->file, info->next->file) > 0)
-		{
-			tmp = info->next;
-			info->next = info->next->next;
-			head = add_node_middle_ascii(head, tmp);
+			head = move_error_back(head, tmp);
 		}
 		else
 			info = info->next;
@@ -113,11 +63,11 @@ t_info			*sort_list_ascii(t_info *info)
 	return (head);
 }
 
-t_info			*sort_list(t_info *info, t_args *args)
+t_info			*sort_root_by_args(t_info *info, t_args *args)
 {
+	t_info		*head;
 	int			check;
 	int			i;
-	t_info		*head;
 
 	i = 0;
 	head = info;
@@ -129,18 +79,34 @@ t_info			*sort_list(t_info *info, t_args *args)
 		i--;
 	if (args->arg[i] == 't' && is_contained_in("S", args->arg, 0) <= 0 &&
 			is_contained_in("u", args->arg, 0) <= 0 && check++ >= 0)
-		info->next = sort_list_time(info->next);
+		info = sort_list_time(info);
 	if (((args->arg[i] == 'u' && is_contained_in("t", args->arg, 0) > 0) ||
 		(args->arg[i] == 't' && is_contained_in("u", args->arg, 0) > 0)) &&
 			check++ >= 0)
-		info->next = sort_list_access(info->next);
+		info = sort_list_access(info);
 	if ((args->arg[i] == 'S' || (args->arg[i] == 't' &&
 		is_contained_in("S", args->arg, 0) > 0)) && check++ >= 0)
-		info->next = sort_list_s(info->next);
+		info = sort_list_s(info);
 	if (check == 0)
-		info->next = sort_list_ascii(info->next);
+		info = sort_list_ascii(info);
 	if (is_contained_in("r", args->arg, 0) && check++ >= 0)
-		info->next = sort_list_reverse(info->next);
+		info = sort_list_reverse(info);
+	head = info;
+	return (head);
+}
+
+t_info			*sort_root(t_info *info, t_args *args)
+{
+	t_info		*head;
+
+	info = sort_error(info);
+	while (info && info->is_error == 1)
+	{
+		ft_printf("%s\n", info->file);
+		info = info->next;
+	}
+	if (is_contained_in("f", args->arg, 0) <= 0)
+		info = sort_root_by_args(info, args);
 	head = info;
 	return (head);
 }

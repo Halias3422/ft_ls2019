@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 07:46:44 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/21 14:01:59 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,6 @@ void			check_args(char *arg, t_args *args, t_info *info)
 	int			invalid_let;
 	char		*tmp;
 
-	ft_printf("arg = %s\n", arg);
 	model = "lRartSGufg";
 	if ((invalid_let = check_content_equal(model, arg)) == 0)
 	{
@@ -54,8 +53,8 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 	if (stat < 0)
 	{
 		info->is_error = 1;
-		info->file = ft_strjoin("ls: ", arg);
-		info->file = free_strjoin(info->file, ": No such file of directory\n");
+		info->file = ft_strjoin("ft_ls: ", arg);
+		info->file = free_strjoin(info->file, ": No such file of directory");
 	}
 	else
 	{
@@ -64,8 +63,6 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 		fill_file_infos(info, args, fileStat);
 	}
 	args->is_file = 1;
-//	if (info->printing < 0)
-//		dir_passed_as_arg(info, args);
 }
 
 /*
@@ -95,20 +92,19 @@ t_info			*ft_list_back(t_info *head, t_info *info)
 
 t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 {
-	int			av_nb;
 	t_info		*head;
 
 	head = NULL;
 	args->arg = ft_strnew(0);
 	args->is_file = 0;
-	av_nb = 1;
+	args->nb = 1;
 	if (ac == 1)
 		info->file = ".";
 	else
 	{
-		while (av_nb < ac && av[av_nb][0] == '-')
-			check_args(++av[av_nb++], args, info);
-		while (av_nb < ac)
+		while (args->nb < ac && av[args->nb][0] == '-')
+			check_args(++av[args->nb++], args, info);
+		while (args->nb < ac)
 		{
 			if (!(info = (t_info*)malloc(sizeof(t_info))))
 			{
@@ -116,12 +112,13 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 				exit (-1);
 			}
 			info->file = NULL;
-			check_file_name(av[av_nb], info, args);
+			check_file_name(av[args->nb], info, args);
+			info->sub_folder = 0;
 			info->next = NULL;
-			if (info->printing < 0)
-				dir_passed_as_arg(info, args);
+//			if (info->printing < 0)
+//				dir_passed_as_arg(info, args);
 			head = ft_list_back(head, info);
-			av_nb++;
+			args->nb++;
 		}
 	}
 	return (head);

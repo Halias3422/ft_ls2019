@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 14:47:37 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/21 13:50:14 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,17 +32,28 @@ int				main(int ac, char **av)
 	t_info		*info;
 	t_args		args;
 	t_info		*head;
-
+	
 	info = NULL;
 //	init_info(info);
 	info = check_params(ac, av, info, &args);
-	info = sort_list(info, & args);
-	head = info;
+	info = sort_root(info, &args);
+/*	head = info;
 	while (head != NULL)
 	{
-		ft_printf("racine info->file = %s\ninfo->printing = %d\n", head->file, head->printing);
+		ft_printf("racine info->file = %s\n", head->file);
 		head = head->next;
-	}
+	}*/
+//	ft_printf("\n");
+	print_root(info, &args);
+//	if (is_contained_in("f", args->arg, 0) <= 0)
+//		info = sort_list(info, &args);
+	head = info;
+/*	while (head != NULL)
+	{
+		ft_printf("racine info->file = %s\n", head->file);
+		head = head->next;
+	}*/
+//	ft_printf("\n");
 //	info->path = ft_strnew(0);
 //	info->path = free_strjoin(info->path, info->file);
 //	head = info;
