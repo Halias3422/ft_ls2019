@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 12:52:59 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 11:40:03 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 12:26:16 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,10 +18,10 @@ void			final_print_inside_fold(t_info *folder, int len, t_args *args)
 	if (is_contained_in("l", args->arg, 0) <= 0 && is_contained_in("g",
 				args->arg, 0) <= 0)
 	{
-		ft_printf("%s", folder->file);
-		len = args->biggest_word - ft_strlen(folder->file);
-		while (len-- >= 0 && folder->next)
-			ft_printf(" ");
+		ft_printf("%s\n", folder->file);
+//		len = args->biggest_word - ft_strlen(folder->file);
+//		while (len-- >= 0 && folder->next)
+//			ft_printf(" ");
 	}
 	else if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
 				args->arg, 0) > 0)

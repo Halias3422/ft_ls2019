@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 11:30:34 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 13:08:03 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,12 +20,15 @@ void				fill_file_rights(t_info *info, struct stat fileStat)
 		free(info);
 		exit (-1);
 	}
-//	ft_printf("%#b\n", fileStat.st_mode);
-	info->rights[0] = (fileStat.st_mode & S_IFDIR) ? 'd' : '-';
-	if (info->rights[0] != 'd')
-		info->rights[0] = S_ISLNK(fileStat.st_mode) ? 'l' : '-';
-	else
-		info->rights[0] = (fileStat.st_mode & S_IFLNK) ? 'l' : 'd';
+	info->rights[0] = (fileStat.st_mode & S_IFCHR) ? 'c' : '-';
+	info->rights[0] = (fileStat.st_mode & S_IFDIR) ? 'd' : info->rights[0];
+	info->rights[0] = (fileStat.st_mode & S_IFIFO) ? 'p' : info->rights[0];
+	info->rights[0] = (fileStat.st_mode & S_IFCHR && fileStat.st_mode &
+			S_IFDIR) ? 'b' : info->rights[0];
+	info->rights[0] = (fileStat.st_mode & S_IFREG && fileStat.st_mode &
+			S_IFCHR) ? 'l' : info->rights[0];
+	info->rights[0] = (fileStat.st_mode & S_IFREG && fileStat.st_mode &
+			S_IFDIR) ? 's' : info->rights[0];
 	info->rights[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
  	info->rights[2] = (fileStat.st_mode & S_IWUSR) ? 'w' : '-';
 	info->rights[3] = (fileStat.st_mode & S_IXUSR) ? 'x' : '-';
