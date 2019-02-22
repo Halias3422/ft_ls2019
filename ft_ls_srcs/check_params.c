@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 14:01:59 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 11:11:41 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,10 +56,11 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 		info->file = ft_strjoin("ft_ls: ", arg);
 		info->file = free_strjoin(info->file, ": No such file of directory");
 	}
-	else
 	{
 		if (info->file == NULL)
 			info->file = arg;
+		if (ft_strlen(info->file) > args->biggest_word)
+			args->biggest_word = ft_strlen(info->file);
 		fill_file_infos(info, args, fileStat);
 	}
 	args->is_file = 1;
@@ -98,6 +99,10 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 	args->arg = ft_strnew(0);
 	args->is_file = 0;
 	args->nb = 1;
+	args->biggest_word = 0;
+	args->biggest_inodes = 0;
+	args->biggest_usr = 0;
+	args->biggest_size = 0;
 	if (ac == 1)
 		info->file = ".";
 	else
@@ -112,11 +117,10 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 				exit (-1);
 			}
 			info->file = NULL;
+			info->forbidden = 0;
 			check_file_name(av[args->nb], info, args);
 			info->sub_folder = 0;
 			info->next = NULL;
-//			if (info->printing < 0)
-//				dir_passed_as_arg(info, args);
 			head = ft_list_back(head, info);
 			args->nb++;
 		}

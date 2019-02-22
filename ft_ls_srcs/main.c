@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 13:50:14 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 10:59:12 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,12 +37,6 @@ int				main(int ac, char **av)
 //	init_info(info);
 	info = check_params(ac, av, info, &args);
 	info = sort_root(info, &args);
-/*	head = info;
-	while (head != NULL)
-	{
-		ft_printf("racine info->file = %s\n", head->file);
-		head = head->next;
-	}*/
 //	ft_printf("\n");
 	print_root(info, &args);
 //	if (is_contained_in("f", args->arg, 0) <= 0)

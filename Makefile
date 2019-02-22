@@ -6,7 +6,7 @@
 #    By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/02 14:34:41 by vde-sain     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/21 12:55:52 by vde-sain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/02/22 09:26:13 by vde-sain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -22,7 +22,8 @@ SRC = ft_ls_srcs/main.c \
 	  ft_ls_srcs/sort_root.c \
 	  ft_ls_srcs/sort_list.c \
 	  ft_ls_srcs/sort_list2.c \
-	  ft_ls_srcs/print_root.c
+	  ft_ls_srcs/print_root.c \
+	  ft_ls_srcs/extended_printing.c
 
 OBJ = $(SRC:.c=.o)
 

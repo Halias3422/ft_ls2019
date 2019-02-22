@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 09:19:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 13:06:41 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 07:24:57 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -129,18 +129,18 @@ t_info			*sort_list(t_info *info, t_args *args)
 		i--;
 	if (args->arg[i] == 't' && is_contained_in("S", args->arg, 0) <= 0 &&
 			is_contained_in("u", args->arg, 0) <= 0 && check++ >= 0)
-		info->next = sort_list_time(info->next);
+		info = sort_list_time(info);
 	if (((args->arg[i] == 'u' && is_contained_in("t", args->arg, 0) > 0) ||
 		(args->arg[i] == 't' && is_contained_in("u", args->arg, 0) > 0)) &&
 			check++ >= 0)
-		info->next = sort_list_access(info->next);
+		info = sort_list_access(info);
 	if ((args->arg[i] == 'S' || (args->arg[i] == 't' &&
 		is_contained_in("S", args->arg, 0) > 0)) && check++ >= 0)
-		info->next = sort_list_s(info->next);
+		info = sort_list_s(info);
 	if (check == 0)
-		info->next = sort_list_ascii(info->next);
+		info = sort_list_ascii(info);
 	if (is_contained_in("r", args->arg, 0) && check++ >= 0)
-		info->next = sort_list_reverse(info->next);
+		info = sort_list_reverse(info);
 	head = info;
 	return (head);
 }

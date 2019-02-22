@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:29:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 14:01:36 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 11:40:05 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,11 +43,18 @@ typedef struct		s_info
 	int				sub_folder;
 	long long		total_size;
 	int				printing;
+	int				forbidden;
 }					t_info;
 
 typedef struct		s_args
 {
 	char			*arg;
+	size_t			biggest_word;
+	size_t			biggest_inodes;
+	size_t			biggest_usr;
+	size_t			biggest_grp;
+	size_t			biggest_size;
+	int				sub_fold_nb;
 	int				nb;
 	int				is_file;
 }					t_args;
@@ -72,8 +79,8 @@ void			fill_full_rights(t_info *info, struct stat fileStat);
 **		DIR_PASSED_AS_ARG.C
 */
 
-void			dir_passed_as_arg(t_info *info, t_args *args);
-void			get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *head);
+t_info			*dir_passed_as_arg(t_info *info, t_args *args);
+t_info			*get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *head);
 /*
 **		DEAL_WITH_RECURSIVE.C
 */
@@ -109,6 +116,12 @@ t_info			*sort_list_time(t_info *info);
 */
 
 void			print_root(t_info *info, t_args *args);
+
+/*
+**		EXTENDED_PRINTING.C
+*/
+
+void			extended_printing_root(t_info *info, t_args *args, int len);
 
 /*
 **		FREE.C
