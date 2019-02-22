@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 12:52:59 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 12:26:16 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/22 15:32:47 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -107,8 +107,8 @@ void			print_root(t_info *info, t_args *args)
 
 	len = 0;
 	head = info;
-	if ((args->nb == 2 || (args->nb == 3 && ft_strlen(args->arg) > 0)) &&
-			info->type == 1)
+	if ((args->nb_files <= 1 || args->nb == 2 || (args->nb == 3 &&
+			ft_strlen(args->arg) > 0)) && info->type == 1)
 		print_content_of_single_dir(info, args);
 	else
 		print_root_and_dirs(info, args, head, len);
