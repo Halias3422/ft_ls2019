@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 09:19:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 07:24:57 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/25 15:13:04 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -99,7 +99,7 @@ t_info			*sort_list_ascii(t_info *info)
 	t_info		*tmp;
 
 	head = info;
-	while (info->next)
+	while (info && info->next)
 	{
 		if (ft_strcmp(info->file, info->next->file) > 0)
 		{

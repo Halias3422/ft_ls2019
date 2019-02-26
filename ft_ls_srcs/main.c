@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 15:50:54 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 13:44:42 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,7 @@ void			check_nb_files(int ac, char **av, t_args *args)
 	i = 1;
 	while (i < ac)
 	{
-		if (av[i][0] != '-')
+		if (av[i][0] != '-' || (av[i][0] == '-' && av[i][1] == '\0'))
 			args->nb_files++;
 		i++;
 	}
@@ -51,11 +51,16 @@ int				main(int ac, char **av)
 //	init_info(info);
 	check_nb_files(ac, av, &args);
 	info = check_params(ac, av, info, &args);
-	info = sort_root(info, &args);
+	head = info;
+	while (head)
+	{
+		head->path = head->file;
+		head = head->next;
+	}
+	if (args.nb_files > 1)
+		info = sort_root(info, &args);
 //	ft_printf("\n");
 	print_root(info, &args);
-//	if (is_contained_in("f", args->arg, 0) <= 0)
-//		info = sort_list(info, &args);
 	head = info;
 /*	while (head != NULL)
 	{
@@ -66,16 +71,6 @@ int				main(int ac, char **av)
 //	info->path = ft_strnew(0);
 //	info->path = free_strjoin(info->path, info->file);
 //	head = info;
-//	head = deal_with_recursive(head, &args);
-/*	while (info != NULL)
-	{
-		ft_printf("info->file = %s\ninfo->type = %d\ninfo->rights = %s\ninfo->user = %s\ninfo->group = %s\ninfo->size = %d\ninfo->date = %s\ninfo->seconds = %d\n\n\n", info->file, info->type, info->rights, info->user, info->group,info->size, info->date, info->seconds);
-		info = info->next;
-	}
-	while (head != NULL)
-	{
-		ft_printf("head->file = %s\nhead->type = %d\nhead->rights = %s\nhead->user = %s\nhead->group = %s\nhead->size = %d\nhead->date = %s\nhead->seconds = %d\n\n\n", head->file, head->type, head->rights, head->user, head->group,head->size, head->date, head->seconds);
-		head = head->next;
-	}*/
+//	deal_with_recursive(head, &args);
 	return (0);
 }

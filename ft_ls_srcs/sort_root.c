@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 07:54:58 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/21 13:47:41 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 07:01:19 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,8 +20,8 @@ t_info			*move_error_back(t_info *info, t_info *error)
 	t_info		*tmp2;
 	int			link;
 
-	head = info;
 	link = 0;
+	head = info;
 	while (info && info->is_error == 1 && ft_strcmp(info->file, error->file) < 0)
 	{
 		link++;
@@ -49,9 +49,9 @@ t_info			*sort_error(t_info *info)
 	t_info		*head;
 
 	head = info;
-	while (info->next)
+	while (info && info->next)
 	{
-		if (info->next->is_error == 1)
+		if (/*info->is_error == 1 && */info->next->is_error == 1 && ft_strcmp(info->file, info->next->file) > 0)
 		{
 			tmp = info->next;
 			info->next = info->next->next;
@@ -95,18 +95,27 @@ t_info			*sort_root_by_args(t_info *info, t_args *args)
 	return (head);
 }
 
-t_info			*sort_root(t_info *info, t_args *args)
+t_info			*print_error(t_info *info)
 {
-	t_info		*head;
-
-	info = sort_error(info);
 	while (info && info->is_error == 1)
 	{
 		ft_printf("%s\n", info->file);
 		info = info->next;
 	}
+	return (info);
+}
+
+t_info			*sort_root(t_info *info, t_args *args)
+{
+	t_info		*head;
+
+
 	if (is_contained_in("f", args->arg, 0) <= 0)
+	{
+		info = sort_error(info);
+		info = print_error(info);
 		info = sort_root_by_args(info, args);
+	}
 	head = info;
 	return (head);
 }

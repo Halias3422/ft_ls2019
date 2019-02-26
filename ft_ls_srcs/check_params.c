@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 15:50:53 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 15:09:57 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,6 +49,7 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 	int			stat;
 
 	info->is_error = 0;
+//	ft_printf("\narg = %s\n", arg);
 	stat = lstat(arg, &fileStat);
 	if (stat < 0)
 	{
@@ -59,6 +60,8 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 	{
 		if (info->file == NULL)
 			info->file = arg;
+		if (ft_strcmp(arg, ".") == 0 && args->dot_arg++ >= 0)
+			info->file = "./";
 		if (ft_strlen(info->file) > args->biggest_word)
 			args->biggest_word = ft_strlen(info->file);
 		fill_file_infos(info, args, fileStat);
@@ -93,7 +96,7 @@ t_info			*check_multiple_params(int ac, char **av, t_info *info,
 	t_info		*head;
 
 	head = NULL;
-	while (args->nb < ac && av[args->nb][0] == '-')
+	while (args->nb < ac && av[args->nb][0] == '-' && av[args->nb][1] != '\0')
 		check_args(++av[args->nb++], args, info);
 	while (args->nb < ac)
 	{
@@ -124,17 +127,24 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 	args->biggest_word = 0;
 	args->biggest_inodes = 0;
 	args->biggest_usr = 0;
+	args->biggest_grp = 0;
 	args->biggest_size = 0;
+	args->biggest_major = 0;
+	args->biggest_minor = 0;
+	args->dir_nb = 0;
+	args->dot_arg = 0;
 	if (args->nb_files == 0)
 	{
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
 			exit (-1);
-		info->file = NULL;
+		info->file = "./";
 		info->forbidden = 0;
-		check_file_name(".", info, args);
+		check_file_name("./", info, args);
 		info->sub_folder = 0;
 		info->next = NULL;
+		info->type = 1;
 		head = ft_list_back(head, info);
+		args->dot_arg = 1;
 		while (args->nb < ac && av[args->nb][0] == '-')
 			check_args(++av[args->nb++], args, info);
 	}

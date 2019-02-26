@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 13:08:03 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 08:41:03 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -96,12 +96,26 @@ void				fill_date_info(t_info *info, struct stat fileStat)
 		info->date[k++] = second[i++];
 }
 
+void				get_minor_and_major(t_info *info, struct stat fileStat, t_args *args)
+{
+	int				dev;
+
+	dev = fileStat.st_rdev;
+	info->major = major(dev);
+	if (check_num_length(info->major) > args->biggest_major)
+		args->biggest_major = check_num_length(info->major);
+	info->minor = minor(dev);
+	if (check_num_length(info->minor) > args->biggest_minor)
+		args->biggest_minor = check_num_length(info->minor);
+}
+
 void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 {
 	info->printing = 1;
 	if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g", args->arg
 				, 0) > 0)
 	{
+		get_minor_and_major(info, fileStat, args);
 		info->inodes = fileStat.st_nlink;
 		if (check_num_length(info->inodes) > args->biggest_inodes)
 			args->biggest_inodes = check_num_length(info->inodes);
@@ -118,6 +132,6 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 	info->type = S_ISDIR(fileStat.st_mode);
 	if (S_ISLNK(fileStat.st_mode) == 1)
 		info->type = 2;
-	if (info->type == 1)
+	if (info->type == 1 && args->dir_nb++ >= 0)
 		info->printing = -1;
 }

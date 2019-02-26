@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/13 10:24:09 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/20 07:14:59 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 11:16:39 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,6 @@ t_info				*get_folder_content(t_info *info, t_args *args, char *curr_file)
 	t_info			*head;
 	struct dirent	*read;
 	DIR				*dirp;
-	t_info			*tmp;
 
 	head = info;
 	dirp = opendir(curr_file);
@@ -61,13 +60,6 @@ t_info				*get_folder_content(t_info *info, t_args *args, char *curr_file)
 		info->next = NULL;
 		head = ft_list_back(head, info);
 	}
-	tmp = head;
-	while (tmp != NULL)
-	{
-		ft_printf("rec info->file = %s\n", tmp->file);
-		tmp = tmp->next;
-	}
-	ft_printf("JE SORS DE LA LISTE\n");
 	closedir(dirp);
 	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/20 07:17:00 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 11:22:17 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 08:51:12 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ t_info				*get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *hea
 	t_info			*new;
 
 	args->biggest_word = 0;
-	curr_file = info->file;
+	curr_file = info->path;
 	args->sub_fold_nb = 0;
 	args->biggest_size = 0;
 	args->biggest_usr = 0;

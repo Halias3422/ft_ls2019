@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 12:52:59 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/22 15:32:47 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/26 13:54:27 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,8 +23,8 @@ void			final_print_inside_fold(t_info *folder, int len, t_args *args)
 //		while (len-- >= 0 && folder->next)
 //			ft_printf(" ");
 	}
-	else if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
-				args->arg, 0) > 0)
+	else if ((is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
+				args->arg, 0) > 0) && folder->is_error != 1)
 		extended_printing_root(folder, args, len);
 }
 
@@ -33,6 +33,10 @@ void			print_content_of_single_dir(t_info *info, t_args *args)
 	t_info		*folder;
 	int			len;
 
+	if (is_contained_in("R", args->arg, 0) > 0)
+		deal_with_recursive(info, args);
+	else
+	{
 	len = 0;
 		folder = dir_passed_as_arg(info, args);
 		if (info->forbidden == 0)
@@ -44,6 +48,7 @@ void			print_content_of_single_dir(t_info *info, t_args *args)
 			final_print_inside_fold(folder, len, args);
 		folder = folder->next;
 	}
+	}
 }
 
 void			print_dir_content(t_info *info, t_args *args, t_info *folder, int len)
@@ -54,7 +59,7 @@ void			print_dir_content(t_info *info, t_args *args, t_info *folder, int len)
 	{
 		if (info->type == 1 && info->sub_folder == 0)
 		{
-			ft_printf("\n");
+//			ft_printf("\n");
 			tmp = info->next;
 			ft_printf("%s:\n", info->file);
 			folder = dir_passed_as_arg(info, args);
@@ -68,6 +73,7 @@ void			print_dir_content(t_info *info, t_args *args, t_info *folder, int len)
 					final_print_inside_fold(folder, len, args);
 				folder = folder->next;
 			}
+		if (info->next)
 			ft_printf("\n");
 		}
 		info = info->next;
@@ -77,27 +83,29 @@ void			print_dir_content(t_info *info, t_args *args, t_info *folder, int len)
 void			print_root_and_dirs(t_info *info, t_args *args, t_info *head, int len)
 {
 	t_info		*folder;
+	int			printed;
 
+	printed = 0;
 	folder = NULL;
 	while (info)
 	{
 		if (info->type == 0 && is_contained_in("l", args->arg, 0) <= 0 &&
-				is_contained_in("g", args->arg, 0) <= 0)
-		{
-			ft_printf("%s", info->file);
-			len = args->biggest_word - ft_strlen(info->file);
-			while (len-- >= 0)
-				ft_printf(" ");
-		}
+				is_contained_in("g", args->arg, 0) <= 0 && printed++ >= 0)
+			ft_printf("%s\n", info->file);
 		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
-				is_contained_in("g", args->arg, 0) > 0))
+				is_contained_in("g", args->arg, 0) > 0) && info->is_error != 1)
 			extended_printing_root(info, args, len);
+		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
+				is_contained_in("g", args->arg, 0) > 0) && info->is_error == 1)
+			ft_printf("%s", info->file);
 		info = info->next;
 	}
-	if (is_contained_in("l", args->arg, 0) <= 0)
+	if (is_contained_in("l", args->arg, 0) <= 0 && printed > 0)
 		ft_printf("\n");
 	info = head;
 	print_dir_content(info, args, folder, len);
+	if (is_contained_in("R", args->arg, 0) > 0)
+		deal_with_recursive(info, args);
 }
 
 void			print_root(t_info *info, t_args *args)
