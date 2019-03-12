@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 07:09:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/26 14:06:48 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/12 09:45:19 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,7 @@ typedef struct		s_info
 {
 	char			*file;
 	char			*path;
+	char			*color;
 	int				is_error;
 	int				type;
 	char			*rights;
@@ -36,6 +37,7 @@ typedef struct		s_info
 	int				major;
 	int				minor;
 	int				size;
+	int				blk_size;
 	time_t			access;
 	int				access_equal;
 	time_t			seconds;
@@ -46,6 +48,7 @@ typedef struct		s_info
 	long long		total_size;
 	int				printing;
 	int				forbidden;
+	int				first_link;
 }					t_info;
 
 typedef struct		s_args
@@ -81,6 +84,12 @@ void				check_args(char *arg, t_args *args, t_info *info);
 
 void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat);
 void				fill_full_rights(t_info *info, struct stat fileStat);
+
+/*
+**ADD_COLORS.C
+*/
+
+void				add_colors(t_info *info, struct stat fileStat);
 
 /*
 **DIR_PASSED_AS_ARG.C
@@ -131,12 +140,13 @@ void				print_root(t_info *info, t_args *args);
 */
 
 void				extended_printing_root(t_info *info, t_args *args, int len);
+void				print_block_size(t_info *info);
 
 /*
 **FREE.C
 */
 
-void				free_list(t_info *lst);
+void				free_list(t_info *lst, t_args *args);
 
 #endif
 

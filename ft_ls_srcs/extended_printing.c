@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/22 09:21:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/25 09:28:27 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/12 09:52:10 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -42,6 +42,19 @@ void			print_major_minor(t_info *info, int len, t_args *args)
 	ft_printf("%d %s %s", info->minor, info->date, info->file);
 }
 
+void			print_block_size(t_info *info)
+{
+	int			block;
+
+	block = 0;
+	while (info)
+	{
+		block += info->blk_size;
+		info = info->next;
+	}
+	ft_printf("total %d\n", block);
+}
+
 void			extended_printing_root(t_info *info, t_args *args, int len)
 {
 	ft_printf("%s", info->rights);
@@ -62,7 +75,7 @@ void			extended_printing_root(t_info *info, t_args *args, int len)
 		else
 			print_spaces(args->biggest_major + args->biggest_minor + 2,
 					check_num_length(info->size), len);
-		ft_printf("%d %s %s", info->size, info->date, info->file);
+		ft_printf("%d %s %s%s\033[0m", info->size, info->date, info->color, info->file);
 	}
 	else
 		print_major_minor(info, len, args);

@@ -6,7 +6,7 @@
 #    By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/02 14:34:41 by vde-sain     #+#   ##    ##    #+#        #
-#    Updated: 2019/02/25 08:47:28 by vde-sain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/03/12 07:51:58 by vde-sain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -18,12 +18,13 @@ SRC = ft_ls_srcs/main.c \
 	  ft_ls_srcs/dir_passed_as_arg.c \
 	  ft_ls_srcs/free.c \
 	  ft_ls_srcs/fill_file_infos.c \
-	  ft_ls_srcs/new_deal_with_recursive.c \
+	  ft_ls_srcs/deal_with_recursive.c \
 	  ft_ls_srcs/sort_root.c \
 	  ft_ls_srcs/sort_list.c \
 	  ft_ls_srcs/sort_list2.c \
 	  ft_ls_srcs/print_root.c \
-	  ft_ls_srcs/extended_printing.c
+	  ft_ls_srcs/extended_printing.c \
+	  ft_ls_srcs/add_colors.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -31,7 +32,7 @@ OBJ_DIR = ft_ls_srcs/
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 LIBFT = ./libft/
 

@@ -1,89 +1,93 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   deal_with_recursive.c                            .::    .:/ .      .::   */
+/*   new_deal_with_recursive.c                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/02/13 10:24:09 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/26 11:16:39 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
+/*   Updated: 2019/03/12 09:53:36 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_info				*ft_list_back_next2(t_info *dir_head, t_info *info)
+t_info			*dir_inside_recursive(t_info *info, t_args *args)
 {
-	t_info			*tmp;
-
-	tmp = NULL;
-	if (dir_head == NULL)
-		dir_head = info;
-	else
-	{
-		tmp = dir_head;
-		while (tmp->next2 != NULL)
-		{
-			tmp = tmp->next2;
-			tmp->next2 = info;
-		}
-	}
-	return (dir_head);
-}
-
-t_info				*get_folder_content(t_info *info, t_args *args, char *curr_file)
-{
-	t_info			*head;
-	struct dirent	*read;
 	DIR				*dirp;
+	t_info			*head;
+	t_info			*new;
 
-	head = info;
-	dirp = opendir(curr_file);
+	new = NULL;
+	head = new;
+	dirp = opendir(info->path);
 	if (dirp == NULL)
 	{
-		ft_printf("ft_ls: %s: Permission denied\n", curr_file);
-		return (head);
+		ft_printf("ft_ls: %s: Permission denied\n", info->file);
+		info->forbidden = 1;
 	}
-	while ((read = readdir(dirp)) != NULL)
-	{
-		if (!(info = (t_info*)malloc(sizeof(t_info))))
-		{
-			free_list(head);
-			exit (-1);
-		}
-		info->file = ft_strnew(0);
-		info->path = ft_strjoin(curr_file, "/");
-		info->path = free_strjoin(info->path, read->d_name);
-		check_file_name(info->path, info, args);
-		info->file = free_strjoin(info->file, read->d_name);
-		info->next = NULL;
-		head = ft_list_back(head, info);
-	}
-	closedir(dirp);
-	return (head);
+	else
+		new = get_content_of_dir(info, args, dirp, head);
+	if (dirp)
+		closedir(dirp);
+	return (new);
+
 }
 
-t_info				*deal_with_recursive(t_info *info, t_args *args)
+void			go_end_folder(t_info *folder, t_args *args, t_info *info)
 {
-	t_info			*head;
-	t_info			*dir_head;
-	char			*curr_file;
+	t_info		*head;
 
-	head = info;
-	if (ft_strcmp(info->file, ".") != 0 && ft_strcmp(info->file, "..") != 0)
+	head = folder;
+	if (info->first_link == 0)
+		ft_printf("\n");
+	ft_printf("{U.}%s:{eoc}\n", info->path);
+	print_block_size(folder);
+	while (folder)
 	{
-		dir_head = NULL;
-		if (info->type == 1)
+		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") == 0 && args->dot_arg == 0))
 		{
-			curr_file = info->path;
-			info->file = NULL;
-			info->next2 = get_folder_content(info, args, curr_file);
-			dir_head = ft_list_back_next2(dir_head, info);
-			info->next2->next2 = NULL;
+			folder->path = ft_strjoin(info->path, "/");
+			folder->path = free_strjoin(folder->path, folder->file);
 		}
+		else
+			folder->path = ft_strjoin(info->path, folder->file);
+		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a", args->arg, 0) <= 0 && folder->file[0] != '.'))
+		final_print_inside_fold(folder, 0, args);
+		folder = folder->next;
 	}
-	if ((is_contained_in("R", args->arg, 0) > 0) && info->next != NULL)
-		deal_with_recursive(info->next, args);
-	return (head);
+	deal_with_recursive(head, args);
+}
+
+void			deal_with_recursive(t_info *info, t_args *args)
+{
+	t_info		*head;
+	t_info		*folder;
+
+	folder = NULL;
+	head = info;
+	while (info)
+	{
+		if (ft_strcmp(info->file, ".") != 0 && ft_strcmp(info->file, "..") != 0)
+		{
+			if (info->type == 1)
+			{
+				folder = dir_inside_recursive(info, args);
+//				free(folder->path);
+				folder = sort_root(folder, args);
+				go_end_folder(folder, args, info);
+				while (folder)
+				{
+					head = folder;
+					folder = folder->next;
+					free(head->file);
+					free(head->path);
+					free(head->date);
+					free(head);
+				}
+			}
+		}
+		info = info->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 07:54:58 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/26 07:01:19 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/02/27 10:52:06 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,16 +77,19 @@ t_info			*sort_root_by_args(t_info *info, t_args *args)
 	while (i >= 0 && args->arg[i] != 't' && args->arg[i] != 'S' &&
 			args->arg[i] != 'u')
 		i--;
-	if (args->arg[i] == 't' && is_contained_in("S", args->arg, 0) <= 0 &&
-			is_contained_in("u", args->arg, 0) <= 0 && check++ >= 0)
-		info = sort_list_time(info);
-	if (((args->arg[i] == 'u' && is_contained_in("t", args->arg, 0) > 0) ||
-		(args->arg[i] == 't' && is_contained_in("u", args->arg, 0) > 0)) &&
-			check++ >= 0)
-		info = sort_list_access(info);
-	if ((args->arg[i] == 'S' || (args->arg[i] == 't' &&
-		is_contained_in("S", args->arg, 0) > 0)) && check++ >= 0)
-		info = sort_list_s(info);
+	if ((size_t)i < ft_strlen(args->arg))
+	{
+		if (args->arg[i] == 't' && is_contained_in("S", args->arg, 0) <= 0 &&
+				is_contained_in("u", args->arg, 0) <= 0 && check++ >= 0)
+			info = sort_list_time(info);
+		if (((args->arg[i] == 'u' && is_contained_in("t", args->arg, 0) > 0) ||
+				(args->arg[i] == 't' && is_contained_in("u", args->arg, 0) > 0)) &&
+				check++ >= 0)
+			info = sort_list_access(info);
+		if ((args->arg[i] == 'S' || (args->arg[i] == 't' &&
+				is_contained_in("S", args->arg, 0) > 0)) && check++ >= 0)
+			info = sort_list_s(info);
+	}
 	if (check == 0)
 		info = sort_list_ascii(info);
 	if (is_contained_in("r", args->arg, 0) && check++ >= 0)
@@ -97,10 +100,16 @@ t_info			*sort_root_by_args(t_info *info, t_args *args)
 
 t_info			*print_error(t_info *info)
 {
+	t_info		*tmp;
+
 	while (info && info->is_error == 1)
 	{
 		ft_printf("%s\n", info->file);
+		tmp = info;
 		info = info->next;
+		free(tmp->file);
+		free(tmp->date);
+		free(tmp);
 	}
 	return (info);
 }

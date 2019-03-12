@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/26 13:44:42 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/12 07:51:46 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,6 @@ int				main(int ac, char **av)
 		info = sort_root(info, &args);
 //	ft_printf("\n");
 	print_root(info, &args);
-	head = info;
 /*	while (head != NULL)
 	{
 		ft_printf("racine info->file = %s\n", head->file);
@@ -72,5 +71,6 @@ int				main(int ac, char **av)
 //	info->path = free_strjoin(info->path, info->file);
 //	head = info;
 //	deal_with_recursive(head, &args);
+	free_list(info, &args);
 	return (0);
 }

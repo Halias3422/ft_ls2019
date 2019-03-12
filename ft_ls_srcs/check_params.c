@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/26 15:09:57 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/12 12:40:29 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,8 +14,8 @@
 #include "ft_ls.h"
 
 /*
- **	CHECK IF OPTION PASSED AS ARG EXISTS
- */
+**		CHECK IF OPTION PASSED AS ARG EXISTS
+*/
 
 void			check_args(char *arg, t_args *args, t_info *info)
 {
@@ -34,14 +34,14 @@ void			check_args(char *arg, t_args *args, t_info *info)
 	{
 		ft_printf("ls: illegal option -- %c\nusage: ls ", invalid_let);
 		ft_printf("[-GSRafglrtu] [file ...]\n");
-		free_list(info);
+		free_list(info, args);
 		exit (0);
 	}
 }
 
 /*
- **	CHECK IF FILE PASSED AS ARG EXISTS
- */
+**		CHECK IF FILE PASSED AS ARG EXISTS
+*/
 
 void			check_file_name(char *arg, t_info *info, t_args *args)
 {
@@ -65,13 +65,14 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 		if (ft_strlen(info->file) > args->biggest_word)
 			args->biggest_word = ft_strlen(info->file);
 		fill_file_infos(info, args, fileStat);
+		add_colors(info, fileStat);
 	}
 	args->is_file = 1;
 }
 
 /*
- **	CREATE LINK BETWEEN NODES OF LINKED CHAINE
- */
+**		CREATE LINK BETWEEN NODES OF LINKED CHAINE
+*/
 
 t_info			*ft_list_back(t_info *head, t_info *info)
 {
@@ -94,7 +95,9 @@ t_info			*check_multiple_params(int ac, char **av, t_info *info,
 				t_args *args)
 {
 	t_info		*head;
+	int			link_nb;
 
+	link_nb = 0;
 	head = NULL;
 	while (args->nb < ac && av[args->nb][0] == '-' && av[args->nb][1] != '\0')
 		check_args(++av[args->nb++], args, info);
@@ -102,9 +105,10 @@ t_info			*check_multiple_params(int ac, char **av, t_info *info,
 	{
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
 		{
-			free_list(head);
+			free_list(head, args);
 			exit (-1);
 		}
+		info->first_link = link_nb++;
 		info->file = NULL;
 		info->forbidden = 0;
 		check_file_name(av[args->nb], info, args);
