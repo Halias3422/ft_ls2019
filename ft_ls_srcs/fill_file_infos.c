@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 07:43:00 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 15:56:35 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -121,7 +121,7 @@ void				fill_date_info(t_info *info, time_t ret, char *second)
 	}
 }
 
-void				get_date_info(t_info *info, struct stat fileStat)
+void				get_date_info(t_info *info, struct stat fileStat, t_args *args)
 {
 	time_t			stat_time;
 	char			*second;
@@ -132,7 +132,10 @@ void				get_date_info(t_info *info, struct stat fileStat)
 	ret = 0;
 	ret = time(curr_time);
 	info->date = ft_strnew(14);
-	stat_time = fileStat.st_mtime;
+	if (is_contained_in("u", args->arg, 0) <= 0)
+		stat_time = fileStat.st_mtime;
+	else
+		stat_time = fileStat.st_atime;
 	second = ctime(&stat_time);
 	info->seconds = stat_time;
 	fill_date_info(info, ret, second);
@@ -165,7 +168,7 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 		fill_user_group_info(info, fileStat, args);
 	}
 	info->access = fileStat.st_atime;
-	get_date_info(info, fileStat);
+	get_date_info(info, fileStat, args);
 	info->size = fileStat.st_size;
 	info->blk_size = fileStat.st_blocks;
 	if (check_num_length(info->size) > args->biggest_size && info->is_error < 1)

@@ -6,12 +6,39 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 09:18:58 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 15:30:42 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void			print_rec_files(t_info *info, t_args *args)
+{
+	int			len;
+	int			is_dir;
+
+	len = 0;
+	args->printed = 0;
+	is_dir = 0;
+	while (info)
+	{
+		if (info->type > 0)
+			is_dir++;
+		if (info->type == 0 && is_contained_in("l", args->arg, 0) <= 0 &&
+				is_contained_in("g", args->arg, 0) <= 0 && is_contained_in("o", args->arg, 0) <= 0 && args->printed++ >= 0)
+			ft_printf("%s%s\033[0m\n", info->color, info->file);
+		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
+				is_contained_in("g", args->arg, 0) > 0 || (is_contained_in("o", args->arg, 0) > 0)) && info->is_error != 1)
+			extended_printing_root(info, args, len);
+		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
+				is_contained_in("g", args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0) && info->is_error == 1)
+			ft_printf("%s", info->file);
+		info = info->next;
+	}
+//	if (is_dir > 0 && args->printed > 0)
+//		ft_printf("\n");
+}
 
 t_info			*dir_inside_recursive(t_info *info, t_args *args)
 {
@@ -40,9 +67,10 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info)
 	t_info		*head;
 
 	head = folder;
-	if (info->first_link == 0)
+	if (args->printed++ > 0)
 		ft_printf("\n");
-	ft_printf("{U.}%s:{eoc}\n", info->path);
+	if (ft_strcmp(info->path, "./") != 0 || args->printed > 1)
+		ft_printf("{U.}%s:{eoc}\n", info->path);
 	if (is_contained_in("l", args->arg, 0) > 0)
 		print_block_size(folder);
 	while (folder)
@@ -82,10 +110,7 @@ void			deal_with_recursive(t_info *info, t_args *args)
 				{
 					head = folder;
 					folder = folder->next;
-					free(head->file);
-					free(head->path);
-					free(head->date);
-					free(head);
+					free_one_list(head, args);
 				}
 			}
 		}

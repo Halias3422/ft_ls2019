@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 09:19:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 15:41:54 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 14:17:30 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ t_info			*add_node_middle_s(t_info *info, t_info *new)
 
 	head = info;
 	link = 0;
-	while (info && info->size > new->size)
+	while (info && (info->size > new->size || ( info->size == new->size && ft_strcmp(info->file, new->file) < 0)))
 	{
 		link++;
 		tmp2 = info;
@@ -79,10 +79,13 @@ t_info			*sort_list_s(t_info *info)
 	t_info		*tmp;
 
 	head = info;
-	while (info->next)
+	while (info && info->next)
 	{
-		if (info->size < info->next->size)
+		if (info->size < info->next->size || (info->size == info->next->size &&
+			ft_strcmp(info->file, info->next->file) > 0))
 		{
+//			if (info->size == info->next->size && ft_strcmp(info->file, info->next->file) < 0)
+//				ft_printf("info = %s info->next = %s\n", info->file, info->next->file);
 			tmp = info->next;
 			info->next = info->next->next;
 			head = add_node_middle_s(head, tmp);

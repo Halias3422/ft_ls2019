@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/22 09:21:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 08:48:30 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 15:25:24 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,14 +46,18 @@ void			print_major_minor(t_info *info, int len, t_args *args)
 void			print_block_size(t_info *info)
 {
 	int			block;
+	int			files_in_dir;
 
+	files_in_dir = 0;
 	block = 0;
 	while (info)
 	{
+		files_in_dir++;
 		block += info->blk_size;
 		info = info->next;
 	}
-	ft_printf("total %d\n", block);
+	if (files_in_dir > 0)
+		ft_printf("total %d\n", block);
 }
 
 void			extended_printing_root(t_info *info, t_args *args, int len)
@@ -85,4 +89,5 @@ void			extended_printing_root(t_info *info, t_args *args, int len)
 	if (info->rights[0] == 'l')
 		printing_link(info);
 	ft_printf("\n");
+	args->printed++;
 }

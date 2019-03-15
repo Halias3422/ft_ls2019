@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 06:15:58 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 13:59:04 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,11 +50,17 @@ int				main(int ac, char **av)
 	t_info		*info;
 	t_args		args;
 	t_info		*head;
-	
+
 	info = NULL;
 //	init_info(info);
 	check_nb_files(ac, av, &args);
 	info = check_params(ac, av, info, &args);
+/*	test = info;
+	while (test)
+	{
+		ft_printf("test = %s\n", test->file);
+		test = test->next;
+	}*/
 	head = info;
 	while (head)
 	{
@@ -75,6 +81,12 @@ int				main(int ac, char **av)
 //	info->path = free_strjoin(info->path, info->file);
 //	head = info;
 //	deal_with_recursive(head, &args);
+/*	test = info;
+	while (test)
+	{
+		ft_printf("test fin = %s\n", test->file);
+		test = test->next;
+	}*/
 	free_list(info, &args);
 	return (0);
 }

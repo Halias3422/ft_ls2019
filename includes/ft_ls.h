@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 07:09:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 07:40:22 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 15:03:31 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,6 +67,7 @@ typedef struct		s_args
 	int				dir_nb;
 	int				nb_files;
 	int				is_file;
+	int				printed;
 }					t_args;
 
 /*
@@ -109,6 +110,7 @@ t_info				*get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *hea
 */
 
 void				deal_with_recursive(t_info *info, t_args *args);
+void				print_rec_files(t_info *info, t_args *args);
 
 /*
 **SORT_ROOT.C
@@ -154,6 +156,7 @@ void				print_block_size(t_info *info);
 */
 
 void				free_list(t_info *lst, t_args *args);
+void				free_one_list(t_info *lst, t_args *args);
 
 #endif
 

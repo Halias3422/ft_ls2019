@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/20 07:17:00 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 09:16:01 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 15:15:44 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,6 +38,9 @@ t_info				*get_content_of_dir(t_info *info, t_args *args, DIR *dirp, t_info *hea
 				new->path = ft_strjoin(curr_file, "/");
 				new->path = free_strjoin(new->path, read->d_name);
 				check_file_name(new->path, new, args);
+				if (is_contained_in("R", args->arg, 0) > 0 || is_contained_in(
+				"S", args->arg, 0) > 0 || args->nb_files == 0)
+					free(new->path);
 				new->file = free_strjoin(new->file, read->d_name);
 				if (ft_strlen(new->file) > args->biggest_word)
 					args->biggest_word = ft_strlen(new->file);

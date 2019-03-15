@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 10:30:08 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 15:42:00 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 13:16:17 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -122,7 +122,7 @@ t_info			*sort_list_time(t_info *info)
 	t_info		*tmp;
 
 	head = info;
-	while (info->next)
+	while (info && info->next)
 	{
 		if (info->seconds < info->next->seconds)
 		{
