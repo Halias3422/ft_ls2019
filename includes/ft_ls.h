@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 07:09:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 15:03:31 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 18:09:57 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,6 +71,12 @@ typedef struct		s_args
 }					t_args;
 
 /*
+**MAIN.C
+*/
+
+int					init_info_link(t_info *info, int link_nb);
+
+/*
 **CHECK_PARAMS.C
 */
 
@@ -87,11 +93,13 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat);
 void				fill_full_rights(t_info *info, struct stat fileStat);
 
 /*
-**FILL_FILE_RIGHTS.C
+**FILL_FILE_RIGHTS_USER_GROUP.C
 */
 
 void				fill_file_rights(t_info *info, struct stat fileStat);
 char				*get_type_info_rights(t_info *info, struct stat fileStat);
+void				fill_user_info(t_info *info, struct stat fileStat, t_args
+					*args);
 
 /*
 **ADD_COLORS.C
@@ -148,8 +156,17 @@ void				print_root(t_info *info, t_args *args);
 **EXTENDED_PRINTING.C
 */
 
-void				extended_printing_root(t_info *info, t_args *args, int len);
+void				extended_printing_root_one(t_info *info, t_args *args, int len);
 void				print_block_size(t_info *info);
+
+/*
+**EXTRA_FT_PRINT.C
+*/
+
+void				print_spaces(size_t nb1, size_t nb2, int len);
+void				printing_link(t_info *info);
+void				final_print_inside_fold(t_info *folder, int len, t_args *args);
+void				print_content_of_single_dir_one(t_info *info, t_args *args);
 
 /*
 **FREE.C

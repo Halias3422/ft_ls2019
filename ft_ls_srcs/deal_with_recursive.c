@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 15:30:42 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 17:53:17 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,18 +26,19 @@ void			print_rec_files(t_info *info, t_args *args)
 		if (info->type > 0)
 			is_dir++;
 		if (info->type == 0 && is_contained_in("l", args->arg, 0) <= 0 &&
-				is_contained_in("g", args->arg, 0) <= 0 && is_contained_in("o", args->arg, 0) <= 0 && args->printed++ >= 0)
+		is_contained_in("g", args->arg, 0) <= 0 && is_contained_in("o",
+		args->arg, 0) <= 0 && args->printed++ >= 0)
 			ft_printf("%s%s\033[0m\n", info->color, info->file);
 		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
-				is_contained_in("g", args->arg, 0) > 0 || (is_contained_in("o", args->arg, 0) > 0)) && info->is_error != 1)
-			extended_printing_root(info, args, len);
+		is_contained_in("g", args->arg, 0) > 0 || (is_contained_in("o",
+		args->arg, 0) > 0)) && info->is_error != 1)
+			extended_printing_root_one(info, args, len);
 		else if (info->type == 0 && (is_contained_in("l", args->arg, 0) > 0 ||
-				is_contained_in("g", args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0) && info->is_error == 1)
+		is_contained_in("g", args->arg, 0) > 0 || is_contained_in("o", args->arg
+		, 0) > 0) && info->is_error == 1)
 			ft_printf("%s", info->file);
 		info = info->next;
 	}
-//	if (is_dir > 0 && args->printed > 0)
-//		ft_printf("\n");
 }
 
 t_info			*dir_inside_recursive(t_info *info, t_args *args)
@@ -59,13 +60,11 @@ t_info			*dir_inside_recursive(t_info *info, t_args *args)
 	if (dirp)
 		closedir(dirp);
 	return (new);
-
 }
 
-void			go_end_folder(t_info *folder, t_args *args, t_info *info)
+void			go_end_folder(t_info *folder, t_args *args, t_info *info, t_info
+				*head)
 {
-	t_info		*head;
-
 	head = folder;
 	if (args->printed++ > 0)
 		ft_printf("\n");
@@ -75,14 +74,17 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info)
 		print_block_size(folder);
 	while (folder)
 	{
-		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") == 0 && args->dot_arg == 0))
+		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") ==
+		0 && args->dot_arg == 0))
 		{
 			folder->path = ft_strjoin(info->path, "/");
 			folder->path = free_strjoin(folder->path, folder->file);
 		}
 		else
 			folder->path = ft_strjoin(info->path, folder->file);
-		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a", args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f", args->arg, 0) > 0)
+		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a",
+		args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f",
+		args->arg, 0) > 0)
 		final_print_inside_fold(folder, 0, args);
 		folder = folder->next;
 	}
@@ -105,7 +107,7 @@ void			deal_with_recursive(t_info *info, t_args *args)
 				folder = dir_inside_recursive(info, args);
 				if (is_contained_in("f", args->arg, 0) <= 0)
 					folder = sort_root(folder, args);
-				go_end_folder(folder, args, info);
+				go_end_folder(folder, args, info, NULL);
 				while (folder)
 				{
 					head = folder;
