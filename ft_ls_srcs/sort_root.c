@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 07:54:58 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/02/27 10:52:06 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 06:30:15 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,7 @@ t_info			*move_error_back(t_info *info, t_info *error)
 	return (head);
 }
 
-t_info			*sort_error(t_info *info)
+t_info			*sort_error(t_info *info, t_args *args)
 {
 	t_info		*tmp;
 	t_info		*head;
@@ -51,11 +51,12 @@ t_info			*sort_error(t_info *info)
 	head = info;
 	while (info && info->next)
 	{
-		if (/*info->is_error == 1 && */info->next->is_error == 1 && ft_strcmp(info->file, info->next->file) > 0)
+		if (info->next->is_error == 1 /*&& ft_strcmp(info->file, info->next->file) > 0*/)
 		{
 			tmp = info->next;
 			info->next = info->next->next;
 			head = move_error_back(head, tmp);
+			args->nb_files--;
 		}
 		else
 			info = info->next;
@@ -121,7 +122,7 @@ t_info			*sort_root(t_info *info, t_args *args)
 
 	if (is_contained_in("f", args->arg, 0) <= 0)
 	{
-		info = sort_error(info);
+		info = sort_error(info, args);
 		info = print_error(info);
 		info = sort_root_by_args(info, args);
 	}

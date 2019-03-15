@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 09:53:36 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 09:18:58 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,8 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info)
 	if (info->first_link == 0)
 		ft_printf("\n");
 	ft_printf("{U.}%s:{eoc}\n", info->path);
-	print_block_size(folder);
+	if (is_contained_in("l", args->arg, 0) > 0)
+		print_block_size(folder);
 	while (folder)
 	{
 		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") == 0 && args->dot_arg == 0))
@@ -53,7 +54,7 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info)
 		}
 		else
 			folder->path = ft_strjoin(info->path, folder->file);
-		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a", args->arg, 0) <= 0 && folder->file[0] != '.'))
+		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a", args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f", args->arg, 0) > 0)
 		final_print_inside_fold(folder, 0, args);
 		folder = folder->next;
 	}
@@ -74,8 +75,8 @@ void			deal_with_recursive(t_info *info, t_args *args)
 			if (info->type == 1)
 			{
 				folder = dir_inside_recursive(info, args);
-//				free(folder->path);
-				folder = sort_root(folder, args);
+				if (is_contained_in("f", args->arg, 0) <= 0)
+					folder = sort_root(folder, args);
 				go_end_folder(folder, args, info);
 				while (folder)
 				{

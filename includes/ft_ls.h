@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 07:09:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 09:45:19 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 07:40:22 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,6 +86,13 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat);
 void				fill_full_rights(t_info *info, struct stat fileStat);
 
 /*
+**FILL_FILE_RIGHTS.C
+*/
+
+void				fill_file_rights(t_info *info, struct stat fileStat);
+char				*get_type_info_rights(t_info *info, struct stat fileStat);
+
+/*
 **ADD_COLORS.C
 */
 
@@ -107,7 +114,7 @@ void				deal_with_recursive(t_info *info, t_args *args);
 **SORT_ROOT.C
 */
 
-t_info				*sort_error(t_info *info);
+t_info				*sort_error(t_info *info, t_args *args);
 t_info				*sort_root(t_info *info, t_args *args);
 
 /*

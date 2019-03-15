@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 09:40:01 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 07:43:00 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,54 +53,6 @@ void				fill_file_rights(t_info *info, struct stat fileStat)
 	info->rights[10] = '\0';
 }
 */
-char*get_type_info_rights_ls(t_info *info, struct stat fileStat)
-{
-	if	(fileStat.st_mode & S_IFIFO)
-		info->rights[0] = 'p';
-	if (fileStat.st_mode & S_IFCHR)
-		info->rights[0] = 'c';
-	if (fileStat.st_mode & S_IFDIR)
-		info->rights[0] = 'd';
-	if (fileStat.st_mode & S_IFREG)
-		info->rights[0] = '-';
-	if (fileStat.st_mode & S_IFCHR && fileStat.st_mode & S_IFDIR)
-		info->rights[0] = 'b';
-	if (fileStat.st_mode & S_IFREG && fileStat.st_mode & S_IFCHR)
-		info->rights[0] = 'l';
-	if (fileStat.st_mode & S_IFREG && fileStat.st_mode & S_IFDIR)
-		info->rights[0] = 's';
-	info->rights[10] = ' ';
-	info->rights[11] = '\0';
-	return (info->rights);
-}
-
-void		fill_file_rights(t_info *info, struct stat fileStat)
-{
-	if (!(info->rights = (char*)malloc(sizeof(char) * 12)))
-		return ;
-	get_type_info_rights_ls(info, fileStat);
-	info->rights[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
-	info->rights[2] = (fileStat.st_mode & S_IWUSR) ? 'w' : '-';
-	info->rights[3] = (fileStat.st_mode & S_IXUSR) ? 'x' : '-';
-	if (info->rights[3] != 'x')
-		info->rights[3] = (fileStat.st_mode & 04000) ? 'S' : info->rights[3];
-	else
-		info->rights[3] = (fileStat.st_mode & 04000) ? 's' : info->rights[3];
-	info->rights[4] = (fileStat.st_mode & S_IRGRP) ? 'r' : '-';
-	info->rights[5] = (fileStat.st_mode & S_IWGRP) ? 'w' : '-';
-	info->rights[6] = (fileStat.st_mode & S_IXGRP) ? 'x' : '-';
-	if (info->rights[6] != 'x')
-		info->rights[6] = (fileStat.st_mode & 02000) ? 'S' : info->rights[6];
-	else
-		info->rights[6] = (fileStat.st_mode & 02000) ? 's' : info->rights[6];
-	info->rights[7] = (fileStat.st_mode & S_IROTH) ? 'r' : '-';
-	info->rights[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
-	info->rights[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
-	if (info->rights[9] != 'x')
-		info->rights[9] = (fileStat.st_mode & 01000) ? 'T' : info->rights[9];
-	else
-		info->rights[9] = (fileStat.st_mode & 01000) ? 't' : info->rights[9];
-}
 
 void				fill_user_group_info(t_info *info, struct stat fileStat, t_args *args)
 {
@@ -141,22 +93,49 @@ void				fill_user_group_info(t_info *info, struct stat fileStat, t_args *args)
 		args->biggest_grp = ft_strlen(info->group);
 }
 
-void				fill_date_info(t_info *info, struct stat fileStat)
+void				fill_date_info(t_info *info, time_t ret, char *second)
 {
-	time_t			stat_time;
-	char			*second;
 	int				i;
 	int				k;
 
 	k = 0;
 	i = 4;
+
+	info->date[k++] = ' ';
+	if (info->seconds < ret - 15778800 || info->seconds > ret + 15778800)
+	{
+		while (second[i] && i < 24)
+		{
+			if (i == 10)
+			{
+				info->date[k++] = ' ';
+				i = 19;
+			}
+			info->date[k++] = second[i++];
+		}
+	}
+	else
+	{
+		while (second[i] && i < 16)
+			info->date[k++] = second[i++];
+	}
+}
+
+void				get_date_info(t_info *info, struct stat fileStat)
+{
+	time_t			stat_time;
+	char			*second;
+	time_t			*curr_time;
+	time_t			ret;
+
+	curr_time = 0;
+	ret = 0;
+	ret = time(curr_time);
 	info->date = ft_strnew(14);
 	stat_time = fileStat.st_mtime;
 	second = ctime(&stat_time);
 	info->seconds = stat_time;
-	info->date[k++] = ' ';
-	while (second[i] && i < 16)
-		info->date[k++] = second[i++];
+	fill_date_info(info, ret, second);
 }
 
 void				get_minor_and_major(t_info *info, struct stat fileStat, t_args *args)
@@ -176,7 +155,7 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 {
 	info->printing = 1;
 	if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g", args->arg
-				, 0) > 0)
+	, 0) > 0 || is_contained_in("o", args->arg, 0) > 0)
 	{
 		get_minor_and_major(info, fileStat, args);
 		info->inodes = fileStat.st_nlink;
@@ -186,7 +165,7 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat fileStat)
 		fill_user_group_info(info, fileStat, args);
 	}
 	info->access = fileStat.st_atime;
-	fill_date_info(info, fileStat);
+	get_date_info(info, fileStat);
 	info->size = fileStat.st_size;
 	info->blk_size = fileStat.st_blocks;
 	if (check_num_length(info->size) > args->biggest_size && info->is_error < 1)

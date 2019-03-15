@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/22 09:21:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 09:52:10 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 08:48:30 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,6 +32,7 @@ void			printing_link(t_info *info)
 	len = readlink(info->path, link, 256);
 	link[len] = '\0';
 	ft_printf(" -> %s", link);
+	free(link);
 }
 
 void			print_major_minor(t_info *info, int len, t_args *args)
@@ -61,12 +62,14 @@ void			extended_printing_root(t_info *info, t_args *args, int len)
 	print_spaces(args->biggest_inodes + 1, check_num_length(info->inodes), len);
 	ft_printf("%d", info->inodes);
 	if (is_contained_in("g", args->arg, 0) <= 0)
-	{
-	ft_printf("%s", info->user);
+		ft_printf("%s", info->user);
+	else
+		ft_printf(" ");
 	print_spaces(args->biggest_usr, ft_strlen(info->user), len);
-
-	}
-	ft_printf("%s", info->group);
+	if (is_contained_in("o", args->arg, 0) <= 0)
+		ft_printf("%s", info->group);
+	else
+		ft_printf(" ");
 	print_spaces(args->biggest_grp, ft_strlen(info->group), len);
 	if (info->rights[0] != 'b' && info->rights[0] != 'c')
 	{

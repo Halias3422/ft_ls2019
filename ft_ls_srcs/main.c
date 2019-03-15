@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/08 09:28:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 07:51:46 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 06:15:58 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,12 +30,16 @@
 void			check_nb_files(int ac, char **av, t_args *args)
 {
 	int			i;
+	int			end_args;
 
+	end_args = 0;
 	args->nb_files = 0;
 	i = 1;
 	while (i < ac)
 	{
-		if (av[i][0] != '-' || (av[i][0] == '-' && av[i][1] == '\0'))
+		if (ft_strcmp(av[i], "--") == 0)
+			end_args++;
+		if (av[i][0] != '-' || (av[i][0] == '-' && av[i][1] == '\0') || (end_args > 0 && ft_strcmp(av[i], "--") != 0))
 			args->nb_files++;
 		i++;
 	}

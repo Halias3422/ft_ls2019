@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/12 12:40:29 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/15 08:54:23 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@ void			check_args(char *arg, t_args *args, t_info *info)
 	int			invalid_let;
 	char		*tmp;
 
-	model = "lRartSGufg";
+	model = "lRartSufgo";
 	if ((invalid_let = check_content_equal(model, arg)) == 0)
 	{
 		tmp = ft_strnew(100);
@@ -33,7 +33,7 @@ void			check_args(char *arg, t_args *args, t_info *info)
 	else
 	{
 		ft_printf("ls: illegal option -- %c\nusage: ls ", invalid_let);
-		ft_printf("[-GSRafglrtu] [file ...]\n");
+		ft_printf("[-SRafglrtuo] [file ...]\n");
 		free_list(info, args);
 		exit (0);
 	}
@@ -99,8 +99,10 @@ t_info			*check_multiple_params(int ac, char **av, t_info *info,
 
 	link_nb = 0;
 	head = NULL;
-	while (args->nb < ac && av[args->nb][0] == '-' && av[args->nb][1] != '\0')
+	while (args->nb < ac && av[args->nb][0] == '-' && av[args->nb][1] != '\0' && ft_strcmp(av[args->nb], "--") != 0)
 		check_args(++av[args->nb++], args, info);
+	if (ft_strcmp(av[args->nb], "--") == 0)
+		args->nb += 1;
 	while (args->nb < ac)
 	{
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
@@ -149,8 +151,12 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 		info->type = 1;
 		head = ft_list_back(head, info);
 		args->dot_arg = 1;
-		while (args->nb < ac && av[args->nb][0] == '-')
+		while (args->nb < ac && av[args->nb][0] == '-' && ft_strcmp(av[args->nb], "--") != 0)
 			check_args(++av[args->nb++], args, info);
+//		if (ft_strcmp(av[args->nb], "--") == 0)
+//			args->nb++;
+//		ft_printf("av = %s\n", av[args->nb]);
+//		exit (-1);
 	}
 	else
 		head = check_multiple_params(ac, av, info, args);
