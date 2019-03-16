@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 12:52:59 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 18:17:28 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/16 16:00:06 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,22 +22,20 @@ void			print_dir_content_two(t_info *info, t_info *folder, t_args *args
 	{
 		if (folder->sub_folder == 1 && ((is_contained_in("a", args->arg,
 		0) <= 0 && folder->file[0] != '.') || is_contained_in("a",
-		args->arg, 0) > 0  || is_contained_in("f", args->arg, 0) > 0) &&
+		args->arg, 0) > 0 || is_contained_in("f", args->arg, 0) > 0) &&
 		info->forbidden == 0)
 			final_print_inside_fold(folder, len, args);
 		free_fold = folder;
 		folder = folder->next;
 		free_one_list(free_fold, args);
 	}
-
 }
 
 void			print_dir_content(t_info *info, t_args *args, t_info *folder,
 				int len)
 {
 	t_info		*tmp;
-//	t_info		*free_fold;
-	
+
 	while (info)
 	{
 		if (info->type == 1 && info->sub_folder == 0)
@@ -47,12 +45,12 @@ void			print_dir_content(t_info *info, t_args *args, t_info *folder,
 			folder = dir_passed_as_arg(info, args);
 			if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
 			args->arg, 0) > 0 || is_contained_in("o", args->arg, 0))
-			print_block_size(folder);
+				print_block_size(folder);
 			if (is_contained_in("f", args->arg, 0) <= 0 && info->forbidden == 0)
 				folder = sort_list(folder, args);
 			print_dir_content_two(info, folder, args, len);
-		if (info->next)
-			ft_printf("\n");
+			if (info->next)
+				ft_printf("\n");
 		}
 		info = info->next;
 	}
@@ -77,7 +75,6 @@ void			printing_depending_on_file(t_info *info, t_args *args, int len,
 			ft_printf("%s", info->file);
 		info = info->next;
 	}
-
 }
 
 void			print_root_and_dirs(t_info *info, t_args *args, t_info *head,

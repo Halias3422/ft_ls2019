@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/15 17:49:57 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 18:10:38 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/16 15:52:11 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ void			printing_link(t_info *info)
 
 	i = 0;
 	if (!(link = (char*)malloc(sizeof(char) * 256)))
-		exit (-1);
+		exit(-1);
 	len = readlink(info->path, link, 256);
 	link[len] = '\0';
 	ft_printf(" -> %s", link);
@@ -86,12 +86,12 @@ void			print_content_of_single_dir_one(t_info *info, t_args *args)
 	else
 	{
 		len = 0;
-			folder = dir_passed_as_arg(info, args);
-			if (is_contained_in("f", args->arg, 0) <= 0 && info->forbidden == 0)
-				folder = sort_list(folder, args);
-			if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
-				args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0)
-				print_block_size(folder);
-			print_content_of_single_dir_two(info, args, folder, len);
+		folder = dir_passed_as_arg(info, args);
+		if (is_contained_in("f", args->arg, 0) <= 0 && info->forbidden == 0)
+			folder = sort_list(folder, args);
+		if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
+			args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0)
+			print_block_size(folder);
+		print_content_of_single_dir_two(info, args, folder, len);
 	}
 }

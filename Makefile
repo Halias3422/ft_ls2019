@@ -6,7 +6,7 @@
 #    By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/02 14:34:41 by vde-sain     #+#   ##    ##    #+#        #
-#    Updated: 2019/03/15 07:43:24 by vde-sain    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/03/16 15:44:25 by vde-sain    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -18,13 +18,16 @@ SRC = ft_ls_srcs/main.c \
 	  ft_ls_srcs/dir_passed_as_arg.c \
 	  ft_ls_srcs/free.c \
 	  ft_ls_srcs/fill_file_infos.c \
-	  ft_ls_srcs/fill_file_rights.c \
+	  ft_ls_srcs/fill_file_rights_user_group.c \
 	  ft_ls_srcs/deal_with_recursive.c \
 	  ft_ls_srcs/sort_root.c \
+	  ft_ls_srcs/sort_error.c \
 	  ft_ls_srcs/sort_list.c \
 	  ft_ls_srcs/sort_list2.c \
+	  ft_ls_srcs/sort_list3.c \
 	  ft_ls_srcs/print_root.c \
 	  ft_ls_srcs/extended_printing.c \
+	  ft_ls_srcs/extra_ft_print.c \
 	  ft_ls_srcs/add_colors.c
 
 OBJ = $(SRC:.c=.o)

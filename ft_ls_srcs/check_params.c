@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 17:38:11 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/16 16:01:31 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,7 @@ void			check_args(char *arg, t_args *args, t_info *info)
 		ft_printf("ls: illegal option -- %c\nusage: ls ", invalid_let);
 		ft_printf("[-SRafglrtuo] [file ...]\n");
 		free_list(info, args);
-		exit (0);
+		exit(0);
 	}
 }
 
@@ -45,11 +45,11 @@ void			check_args(char *arg, t_args *args, t_info *info)
 
 void			check_file_name(char *arg, t_info *info, t_args *args)
 {
-	struct stat	fileStat;
+	struct stat	filestat;
 	int			stat;
 
 	info->is_error = 0;
-	stat = lstat(arg, &fileStat);
+	stat = lstat(arg, &filestat);
 	if (stat < 0)
 	{
 		info->is_error = 1;
@@ -63,8 +63,8 @@ void			check_file_name(char *arg, t_info *info, t_args *args)
 			info->file = "./";
 		if (ft_strlen(info->file) > args->biggest_word)
 			args->biggest_word = ft_strlen(info->file);
-		fill_file_infos(info, args, fileStat);
-		add_colors(info, fileStat);
+		fill_file_infos(info, args, filestat);
+		add_colors(info, filestat);
 	}
 	args->is_file = 1;
 }
@@ -108,7 +108,7 @@ t_info			*check_multiple_params(int ac, char **av, t_info *info,
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
 		{
 			free_list(head, args);
-			exit (-1);
+			exit(-1);
 		}
 		link_nb = init_info_link(info, link_nb);
 		check_file_name(av[args->nb], info, args);
@@ -126,7 +126,7 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 	if (args->nb_files == 0)
 	{
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
-			exit (-1);
+			exit(-1);
 		info->file = "./";
 		info->forbidden = 0;
 		check_file_name("./", info, args);

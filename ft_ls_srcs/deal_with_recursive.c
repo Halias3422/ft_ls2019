@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   new_deal_with_recursive.c                        .::    .:/ .      .::   */
+/*   deal_with_recursive.c                            .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 17:53:17 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/16 16:02:05 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,8 +62,8 @@ t_info			*dir_inside_recursive(t_info *info, t_args *args)
 	return (new);
 }
 
-void			go_end_folder(t_info *folder, t_args *args, t_info *info, t_info
-				*head)
+void			go_end_folder(t_info *folder, t_args *args, t_info *info,
+				t_info *head)
 {
 	head = folder;
 	if (args->printed++ > 0)
@@ -85,7 +85,7 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info, t_info
 		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a",
 		args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f",
 		args->arg, 0) > 0)
-		final_print_inside_fold(folder, 0, args);
+			final_print_inside_fold(folder, 0, args);
 		folder = folder->next;
 	}
 	deal_with_recursive(head, args);
