@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 12:52:59 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 16:00:06 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 07:57:15 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,6 +59,9 @@ void			print_dir_content(t_info *info, t_args *args, t_info *folder,
 void			printing_depending_on_file(t_info *info, t_args *args, int len,
 				int printed)
 {
+	int			printing_dir;
+
+	printing_dir = 0;
 	while (info)
 	{
 		if (info->type == 0 && is_contained_in("l", args->arg, 0) <= 0 &&
@@ -73,6 +76,8 @@ void			printing_depending_on_file(t_info *info, t_args *args, int len,
 		is_contained_in("g", args->arg, 0) > 0 || is_contained_in("o", args->arg
 		, 0) > 0) && info->is_error == 1)
 			ft_printf("%s", info->file);
+		if (info->next && info->next->type == 1 && printing_dir++ < 1)
+			ft_printf("\n");
 		info = info->next;
 	}
 }

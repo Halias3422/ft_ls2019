@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/20 07:17:00 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 15:50:02 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 08:30:10 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,15 +27,13 @@ t_info				*fill_content_of_dir(struct dirent *read, t_info *head,
 	new->path = ft_strjoin(curr_file, "/");
 	new->path = free_strjoin(new->path, read->d_name);
 	check_file_name(new->path, new, args);
-	if (is_contained_in("R", args->arg, 0) > 0 || is_contained_in(
-	"S", args->arg, 0) > 0 || args->nb_files == 0)
-		free(new->path);
 	new->file = free_strjoin(new->file, read->d_name);
 	if (ft_strlen(new->file) > args->biggest_word)
 		args->biggest_word = ft_strlen(new->file);
 	args->sub_fold_nb++;
 	new->printing = 1;
 	new->sub_folder = 1;
+	new->forbidden = 0;
 	new->next = NULL;
 	head = ft_list_back(head, new);
 	return (head);
@@ -81,6 +79,7 @@ t_info				*dir_passed_as_arg(t_info *info, t_args *args)
 	}
 	else
 		new = get_content_of_dir(info, args, dirp, head);
-	closedir(dirp);
+	if (dirp)
+		closedir(dirp);
 	return (new);
 }

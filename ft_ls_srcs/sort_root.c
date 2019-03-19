@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 07:54:58 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 15:48:16 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/18 15:17:20 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,12 +38,10 @@ t_info			*sort_root(t_info *info, t_args *args)
 {
 	t_info		*head;
 
-	if (is_contained_in("f", args->arg, 0) <= 0)
-	{
 		info = sort_error(info, args);
 		info = print_error(info);
+	if (is_contained_in("f", args->arg, 0) <= 0)
 		info = sort_root_by_args(info, args);
-	}
 	head = info;
 	return (head);
 }

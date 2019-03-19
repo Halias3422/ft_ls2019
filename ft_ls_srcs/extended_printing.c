@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/22 09:21:10 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/15 17:54:48 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 08:10:40 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ void			extended_printing_root_two(t_info *info, t_args *args, int len)
 	{
 		if (args->biggest_size > args->biggest_major + args->biggest_minor)
 			print_spaces(args->biggest_size, check_num_length(info->size), len);
-		else
+		else if (info->minor != 0 || info->major != 0)
 			print_spaces(args->biggest_major + args->biggest_minor + 2,
 					check_num_length(info->size), len);
 		ft_printf("%d %s %s%s\033[0m", info->size, info->date, info->color,
@@ -53,7 +53,7 @@ void			extended_printing_root_two(t_info *info, t_args *args, int len)
 	else
 		print_major_minor(info, len, args);
 	if (info->rights[0] == 'l')
-		printing_link(info);
+		printing_link(info, args);
 	ft_printf("\n");
 	args->printed++;
 }
@@ -67,11 +67,13 @@ void			extended_printing_root_one(t_info *info, t_args *args, int len)
 		ft_printf("%s", info->user);
 	else
 		ft_printf(" ");
-	print_spaces(args->biggest_usr, ft_strlen(info->user), len);
+	if (is_contained_in("u", args->arg, 0) <= 0)
+		print_spaces(args->biggest_usr, ft_strlen(info->user), len);
 	if (is_contained_in("o", args->arg, 0) <= 0)
 		ft_printf("%s", info->group);
 	else
 		ft_printf(" ");
-	print_spaces(args->biggest_grp, ft_strlen(info->group), len);
+	if (is_contained_in("g", args->arg, 0) <= 0)
+		print_spaces(args->biggest_grp, ft_strlen(info->group), len);
 	extended_printing_root_two(info, args, len);
 }

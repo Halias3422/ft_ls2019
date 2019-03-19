@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 08:53:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 15:54:37 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 08:46:25 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,6 +26,7 @@ void		free_list(t_info *lst, t_args *args)
 		args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0) &&
 		args->nb_files > 0)
 		{
+			free(lst->rights);
 			free(lst->group);
 			free(lst->user);
 		}

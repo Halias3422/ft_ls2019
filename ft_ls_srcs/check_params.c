@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/11 12:58:19 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 16:01:31 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/18 15:17:31 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -126,7 +126,10 @@ t_info			*check_params(int ac, char **av, t_info *info, t_args *args)
 	if (args->nb_files == 0)
 	{
 		if (!(info = (t_info*)malloc(sizeof(t_info))))
+		{
+			free_list(info, args);
 			exit(-1);
+		}
 		info->file = "./";
 		info->forbidden = 0;
 		check_file_name("./", info, args);

@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/21 10:30:08 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 15:58:11 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 07:47:02 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,7 +68,7 @@ t_info			*sort_list_access(t_info *info)
 	head = info;
 	while (info->next)
 	{
-		if (info->access <= info->next->access)
+		if (info && info->access <= info->next->access)
 		{
 			tmp = info->next;
 			info->next = info->next->next;

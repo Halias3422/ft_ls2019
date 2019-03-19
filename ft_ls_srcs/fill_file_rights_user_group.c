@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/15 07:38:42 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 16:02:53 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/18 16:00:51 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -84,7 +84,7 @@ char				*get_type_info_rights(t_info *info, struct stat filestat)
 void				fill_file_rights(t_info *info, struct stat filestat)
 {
 	if (!(info->rights = (char*)malloc(sizeof(char) * 12)))
-		return ;
+		exit (-1);
 	get_type_info_rights(info, filestat);
 	info->rights[1] = (filestat.st_mode & S_IRUSR) ? 'r' : '-';
 	info->rights[2] = (filestat.st_mode & S_IWUSR) ? 'w' : '-';

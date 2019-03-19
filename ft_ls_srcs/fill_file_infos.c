@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/12 12:18:21 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 16:01:46 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/18 15:31:32 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -94,9 +94,7 @@ void				fill_file_infos(t_info *info, t_args *args, struct stat
 	info->size = filestat.st_size;
 	info->blk_size = filestat.st_blocks;
 	if (check_num_length(info->size) > args->biggest_size && info->is_error < 1)
-	{
 		args->biggest_size = check_num_length(info->size);
-	}
 	info->type = S_ISDIR(filestat.st_mode);
 	if (S_ISLNK(filestat.st_mode) == 1)
 		info->type = 2;

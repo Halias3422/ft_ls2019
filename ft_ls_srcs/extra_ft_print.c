@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/15 17:49:57 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 15:52:11 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 08:46:04 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,7 @@ void			print_spaces(size_t nb1, size_t nb2, int len)
 		ft_printf(" ");
 }
 
-void			printing_link(t_info *info)
+void			printing_link(t_info *info, t_args *args)
 {
 	int			i;
 	ssize_t		len;
@@ -28,7 +28,10 @@ void			printing_link(t_info *info)
 
 	i = 0;
 	if (!(link = (char*)malloc(sizeof(char) * 256)))
+	{
+		free_list(info, args);
 		exit(-1);
+	}
 	len = readlink(info->path, link, 256);
 	link[len] = '\0';
 	ft_printf(" -> %s", link);
@@ -67,6 +70,7 @@ void			print_content_of_single_dir_two(t_info *info, t_args *args,
 		if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
 		args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0)
 		{
+			free(tmp->path);
 			free(tmp->user);
 			free(tmp->group);
 			free(tmp->rights);

@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/16 16:02:05 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 08:47:33 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,12 +68,14 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info,
 	head = folder;
 	if (args->printed++ > 0)
 		ft_printf("\n");
-	if (ft_strcmp(info->path, "./") != 0 || args->printed > 1)
+	if (ft_strcmp(info->path, "./") != 0 && args->printed > 1 &&
+		info->forbidden == 0)
 		ft_printf("{U.}%s:{eoc}\n", info->path);
 	if (is_contained_in("l", args->arg, 0) > 0)
 		print_block_size(folder);
 	while (folder)
 	{
+		free(folder->path);
 		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") ==
 		0 && args->dot_arg == 0))
 		{
