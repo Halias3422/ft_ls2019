@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/19 09:19:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/19 07:52:23 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 09:43:16 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -76,11 +76,12 @@ t_info			*sort_list_time_acc_size(t_info *info, t_args *args, int i,
 		if (args->arg[i] == 't' && is_contained_in("S", args->arg, 0) <= 0 &&
 				is_contained_in("u", args->arg, 0) <= 0 && check++ >= 0)
 			info = sort_list_time(info);
-		if (((args->arg[i] == 'u' && is_contained_in("t",
-		args->arg, 0) > 0) || (args->arg[i] == 't' && is_contained_in("u",
-		args->arg, 0) > 0)) && check++ >= 0)
+		if (((is_contained_in("S", args->arg, 0) <= 0 && args->arg[i] == 'u' &&
+		is_contained_in("t", args->arg, 0) > 0) || (args->arg[i] == 't' &&
+		is_contained_in("u", args->arg, 0) > 0)) && check++ >= 0)
 			info = sort_list_access(info);
 		if ((args->arg[i] == 'S' || (args->arg[i] == 't' &&
+		is_contained_in("S", args->arg, 0) > 0) || (args->arg[i] == 'u' &&
 		is_contained_in("S", args->arg, 0) > 0)) && check++ >= 0)
 			info = sort_list_s(info);
 	}
