@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 07:09:07 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/18 14:58:58 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 09:15:37 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -137,6 +137,8 @@ t_info				*fill_content_of_dir(struct dirent *read, t_info *head,
 void				deal_with_recursive(t_info *info, t_args *args);
 void				go_end_folder(t_info *folder, t_args *args, t_info *info,
 					t_info *head);
+t_info				*iterating_through_fold(t_info *info, t_info *folder,
+					t_args *args);
 t_info				*dir_inside_recursive(t_info *info, t_args *args);
 void				print_rec_files(t_info *info, t_args *args);
 

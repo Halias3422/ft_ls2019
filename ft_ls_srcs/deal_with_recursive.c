@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/02/25 08:39:25 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/19 08:47:33 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 09:17:23 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -62,6 +62,26 @@ t_info			*dir_inside_recursive(t_info *info, t_args *args)
 	return (new);
 }
 
+t_info			*iterating_through_fold(t_info *info, t_info *folder,
+				t_args *args)
+{
+	free(folder->path);
+	if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") ==
+	0 && args->dot_arg == 0))
+	{
+		folder->path = ft_strjoin(info->path, "/");
+		folder->path = free_strjoin(folder->path, folder->file);
+	}
+	else
+		folder->path = ft_strjoin(info->path, folder->file);
+	if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a",
+	args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f",
+	args->arg, 0) > 0)
+		final_print_inside_fold(folder, 0, args);
+	folder = folder->next;
+	return (folder);
+}
+
 void			go_end_folder(t_info *folder, t_args *args, t_info *info,
 				t_info *head)
 {
@@ -74,22 +94,7 @@ void			go_end_folder(t_info *folder, t_args *args, t_info *info,
 	if (is_contained_in("l", args->arg, 0) > 0)
 		print_block_size(folder);
 	while (folder)
-	{
-		free(folder->path);
-		if (ft_strcmp(info->path, "./") != 0 || (ft_strcmp(info->path, "./") ==
-		0 && args->dot_arg == 0))
-		{
-			folder->path = ft_strjoin(info->path, "/");
-			folder->path = free_strjoin(folder->path, folder->file);
-		}
-		else
-			folder->path = ft_strjoin(info->path, folder->file);
-		if (is_contained_in("a", args->arg, 0) > 0 || (is_contained_in("a",
-		args->arg, 0) <= 0 && folder->file[0] != '.') || is_contained_in("f",
-		args->arg, 0) > 0)
-			final_print_inside_fold(folder, 0, args);
-		folder = folder->next;
-	}
+		folder = iterating_through_fold(info, folder, args);
 	deal_with_recursive(head, args);
 }
 
