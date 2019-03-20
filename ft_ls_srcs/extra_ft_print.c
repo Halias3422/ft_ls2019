@@ -6,7 +6,7 @@
 /*   By: vde-sain <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/03/15 17:49:57 by vde-sain     #+#   ##    ##    #+#       */
-/*   Updated: 2019/03/19 08:46:04 by vde-sain    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/03/19 13:12:36 by vde-sain    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,12 +65,11 @@ void			print_content_of_single_dir_two(t_info *info, t_args *args,
 		tmp = folder;
 		folder = folder->next;
 		free(tmp->file);
-		if (is_contained_in("R", args->arg, 0) > 0)
+		if (is_contained_in("R", args->arg, 0) > 0 || args->nb_files <= 1)
 			free(tmp->path);
 		if (is_contained_in("l", args->arg, 0) > 0 || is_contained_in("g",
 		args->arg, 0) > 0 || is_contained_in("o", args->arg, 0) > 0)
 		{
-			free(tmp->path);
 			free(tmp->user);
 			free(tmp->group);
 			free(tmp->rights);
